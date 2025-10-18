@@ -167,7 +167,7 @@ class DiffusionUnetHybridImagePolicy(BaseImagePolicy):
         if num_inference_steps is None:
             num_inference_steps = noise_scheduler.config.num_train_timesteps
         # self.num_inference_steps = num_inference_steps
-        self.num_inference_steps = 50
+        self.num_inference_steps = 40
 
         print("Diffusion params: %e" % sum(p.numel() for p in self.model.parameters()))
         print("Vision params: %e" % sum(p.numel() for p in self.obs_encoder.parameters()))
