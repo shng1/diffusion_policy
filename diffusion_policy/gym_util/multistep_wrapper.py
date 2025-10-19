@@ -54,7 +54,7 @@ def aggregate(data, method='max'):
 def stack_last_n_obs(all_obs, n_steps):
     assert(len(all_obs) > 0)
     all_obs = list(all_obs)
-    result = np.zeros((n_steps,) + all_obs[-1].shape, 
+    result = np.zeros((n_steps,) + all_obs[-1].shape,
         dtype=all_obs[-1].dtype)
     start_idx = -min(n_steps, len(all_obs))
     result[start_idx:] = np.array(all_obs[start_idx:])
@@ -65,10 +65,10 @@ def stack_last_n_obs(all_obs, n_steps):
 
 
 class MultiStepWrapper(gym.Wrapper):
-    def __init__(self, 
-            env, 
-            n_obs_steps, 
-            n_action_steps, 
+    def __init__(self,
+            env,
+            n_obs_steps,
+            n_action_steps,
             max_episode_steps=None,
             reward_agg_method='max'
         ):
@@ -81,16 +81,16 @@ class MultiStepWrapper(gym.Wrapper):
         self.reward_agg_method = reward_agg_method
         self.n_obs_steps = n_obs_steps
 
-        self.obs = deque(maxlen=n_obs_steps+1)
+        self.obs = deque(maxlen=n_obs_steps+10)
         self.reward = list()
         self.done = list()
         self.info = defaultdict(lambda : deque(maxlen=n_obs_steps+1))
-    
+
     def reset(self):
         """Resets the environment using kwargs."""
         obs = super().reset()
 
-        self.obs = deque([obs], maxlen=self.n_obs_steps+1)
+        self.obs = deque([obs], maxlen=self.n_obs_steps+10)
         self.reward = list()
         self.done = list()
         self.info = defaultdict(lambda : deque(maxlen=self.n_obs_steps+1))
@@ -144,17 +144,17 @@ class MultiStepWrapper(gym.Wrapper):
     def _add_info(self, info):
         for key, value in info.items():
             self.info[key].append(value)
-    
+
     def get_rewards(self):
         return self.reward
-    
+
     def get_attr(self, name):
         return getattr(self, name)
 
     def run_dill_function(self, dill_fn):
         fn = dill.loads(dill_fn)
         return fn(self)
-    
+
     def get_infos(self):
         result = dict()
         for k, v in self.info.items():

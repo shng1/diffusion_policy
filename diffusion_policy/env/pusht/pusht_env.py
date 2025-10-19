@@ -191,7 +191,7 @@ class PushTEnv(gym.Env):
             'n_contacts': n_contact_points_per_step}
         return info
 
-    def _render_frame(self, mode):
+    def _render_frame(self, mode, use_window_size=False):
 
         if self.window is None and mode == "human":
             pygame.init()
@@ -228,13 +228,14 @@ class PushTEnv(gym.Env):
         img = np.transpose(
                 np.array(pygame.surfarray.pixels3d(canvas)), axes=(1, 0, 2)
             )
-        img = cv2.resize(img, (self.render_size, self.render_size))
+        render_size = self.window_size if use_window_size else self.render_size
+        img = cv2.resize(img, (render_size, render_size))
         if self.render_action:
             if self.render_action and (self.latest_action is not None):
                 action = np.array(self.latest_action)
                 coord = (action / 512 * 96).astype(np.int32)
-                marker_size = int(8/96*self.render_size)
-                thickness = int(1/96*self.render_size)
+                marker_size = int(8/96*render_size)
+                thickness = int(1/96*render_size)
                 cv2.drawMarker(img, coord,
                     color=(255,0,0), markerType=cv2.MARKER_CROSS,
                     markerSize=marker_size, thickness=thickness)
