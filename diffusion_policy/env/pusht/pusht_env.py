@@ -107,8 +107,9 @@ class PushTEnv(gym.Env):
             #     np.pi * 1/4
             # ])
             state = np.array([
-                400, 100,
-                180, 277,
+                # 400, 100,
+                370, 130,
+                170, 283,
                 np.pi * 1/4
             ])
 
