@@ -101,15 +101,10 @@ class PushTEnv(gym.Env):
             #     rs.randint(100, 400), rs.randint(100, 400),
             #     rs.randn() * 2 * np.pi - np.pi
             #     ])
-            # state = np.array([
-            #     400, 100,
-            #     180, 282,
-            #     np.pi * 1/4
-            # ])
             state = np.array([
                 # 400, 100,
-                370, 130,
-                170, 283,
+                290, 230,
+                190, 280,
                 np.pi * 1/4
             ])
 
@@ -224,7 +219,6 @@ class PushTEnv(gym.Env):
 
             # the clock is already ticked during in step for "human"
 
-
         img = np.transpose(
                 np.array(pygame.surfarray.pixels3d(canvas)), axes=(1, 0, 2)
             )
@@ -240,7 +234,6 @@ class PushTEnv(gym.Env):
                     color=(255,0,0), markerType=cv2.MARKER_CROSS,
                     markerSize=marker_size, thickness=thickness)
         return img
-
 
     def close(self):
         if self.window is not None:

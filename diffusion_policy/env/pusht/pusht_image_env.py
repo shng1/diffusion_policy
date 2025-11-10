@@ -8,11 +8,11 @@ class PushTImageEnv(PushTEnv):
 
     def __init__(self,
             legacy=False,
-            block_cog=None, 
+            block_cog=None,
             damping=None,
             render_size=96):
         super().__init__(
-            legacy=legacy, 
+            legacy=legacy,
             block_cog=block_cog,
             damping=damping,
             render_size=render_size,
@@ -33,7 +33,7 @@ class PushTImageEnv(PushTEnv):
             )
         })
         self.render_cache = None
-    
+
     def _get_obs(self):
         img = super()._render_frame(mode='rgb_array')
 
@@ -62,5 +62,5 @@ class PushTImageEnv(PushTEnv):
 
         if self.render_cache is None:
             self._get_obs()
-        
+
         return self.render_cache

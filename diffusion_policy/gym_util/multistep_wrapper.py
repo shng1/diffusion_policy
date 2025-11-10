@@ -3,6 +3,7 @@ from gym import spaces
 import numpy as np
 from collections import defaultdict, deque
 import dill
+from copy import deepcopy
 
 def stack_repeated(x, n):
     return np.repeat(np.expand_dims(x,axis=0),n,axis=0)
@@ -122,6 +123,27 @@ class MultiStepWrapper(gym.Wrapper):
         done = aggregate(self.done, 'max')
         info = dict_take_last_n(self.info, self.n_obs_steps)
         return observation, reward, done, info
+
+    def get_state(self):
+        env_state = self.env.get_state()
+        state = {
+            'env': env_state,
+            'multistep': {
+                'obs': self.obs,
+                'reward': self.reward,
+                'done': self.done,
+                'info': self.info,
+            }
+        }
+        return state
+
+    def set_state(self, state):
+        state = deepcopy(state)
+        self.env.set_state(state['env'])
+        self.obs = state['multistep']['obs']
+        self.reward = state['multistep']['reward']
+        self.done = state['multistep']['done']
+        self.info = state['multistep']['info']
 
     def _get_obs(self, n_steps=1):
         """
