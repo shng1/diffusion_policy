@@ -83,7 +83,7 @@ class MultiStepWrapper(gym.Wrapper):
         self.n_obs_steps = n_obs_steps
 
         self.obs = deque(maxlen=n_obs_steps+10)
-        self.reward = list()
+        self.reward = deque(maxlen=n_obs_steps+10)
         self.done = list()
         self.info = defaultdict(lambda : deque(maxlen=n_obs_steps+1))
 
