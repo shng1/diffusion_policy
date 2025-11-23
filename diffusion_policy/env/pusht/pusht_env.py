@@ -84,6 +84,8 @@ class PushTEnv(gym.Env):
         self.latest_action = None
         self.reset_to_state = reset_to_state
 
+        self.success_threshold = 0.95    # 95% coverage.
+
     def reset(self):
         seed = self._seed
         self._setup()
@@ -319,7 +321,6 @@ class PushTEnv(gym.Env):
         self.n_contact_points = 0
 
         self.max_score = 50 * 100
-        self.success_threshold = 0.95    # 95% coverage.
 
     def _add_segment(self, a, b, radius):
         shape = pymunk.Segment(self.space.static_body, a, b, radius)
