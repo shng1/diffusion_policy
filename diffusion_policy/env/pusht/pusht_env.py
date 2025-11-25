@@ -85,6 +85,11 @@ class PushTEnv(gym.Env):
         self.reset_to_state = reset_to_state
 
         self.success_threshold = 0.95    # 95% coverage.
+        self.init_state = [
+            290, 230,
+            190, 280,
+            np.pi * 1/4
+        ]
 
     def reset(self):
         seed = self._seed
@@ -103,13 +108,7 @@ class PushTEnv(gym.Env):
             #     rs.randint(100, 400), rs.randint(100, 400),
             #     rs.randn() * 2 * np.pi - np.pi
             #     ])
-            state = np.array([
-                # 400, 100,
-                290, 230,
-                190, 280,
-                np.pi * 1/4
-            ])
-
+            state = np.array(self.init_state)
         self._set_state(state)
 
         observation = self._get_obs()
